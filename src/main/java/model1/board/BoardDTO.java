@@ -9,9 +9,8 @@ public class BoardDTO {
 	private java.sql.Date postdate;
 	private java.sql.Date updtdate;
 	private String visitcount ;
-	private String likecount ;
+	private String reccount ;
 	private String name ;
-	
 	
 	public String getNum() {
 		return num;
@@ -55,12 +54,12 @@ public class BoardDTO {
 	public void setVisitcount(String visitcount) {
 		this.visitcount = visitcount;
 	}
-	public String getLikecount() {
-		return likecount;
+	public String getReccount() {
+		return reccount;
 	}
-	public void setLikecount(String likecount) {
-		this.likecount = likecount;
-	}
+	public void setReccount(String reccount) {
+		this.reccount = reccount;
+	}	
 	public String getName() {
 		return name;
 	}

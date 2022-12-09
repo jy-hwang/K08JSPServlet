@@ -52,7 +52,7 @@
             <th width="40%">제목</th>
             <th width="15%">작성자</th>
             <th width="10%">조회수</th>
-            <th width="10%">좋아요수</th>
+            <th width="10%">추천수</th>
             <th width="15%">작성일</th>
         </tr>
 <%
@@ -78,7 +78,7 @@ else {
             </td>
             <td align="center"><%= dto.getId() %></td>           
             <td align="center"><%= dto.getVisitcount() %></td>   
-            <td align="center"><%= dto.getLikecount() %></td>
+            <td align="center"><%= dto.getReccount() %></td>
             <td align="center"><%= dto.getPostdate() %></td>    
         </tr>
 <%

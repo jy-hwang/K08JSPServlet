@@ -1,21 +1,17 @@
 <%@page import="model1.board.BoardDTO"%>
 <%@page import="model1.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%> 
+    pageEncoding="UTF-8"%>
+<!-- 수정페이지로 진입시 로그인을 확인한다. --> 
 <%@ include file="./IsLoggedIn.jsp"%>  
 
 <%
 String num = request.getParameter("num");
-System.out.println(num);
 
 BoardDAO dao = new BoardDAO(application);
 BoardDTO dto = dao.selectView(num);
 
-System.out.println(dto.getId());
 String sessionId = session.getAttribute("UserId").toString();
-System.out.println("sessionId : " + sessionId);
-System.out.println("dto.getId() : " +dto.getId());
-System.out.println(sessionId.equals(dto.getId()));
 if(!sessionId.equals(dto.getId())){
 	JSFunction.alertBack("작성자 본인만 수정할 수 있습니다.", out);
 	return;

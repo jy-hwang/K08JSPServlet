@@ -67,21 +67,33 @@ function deletePost() {
         </tr>
         <tr>
             <td>내용</td>
-            <td colspan="3" height="100">
-	            <!-- 엔터키로 처리된 부분을 <br>태그로 변경해야지만 줄바꿈되어 출력된다. -->
-                <%= dto.getContent().replace("\r\n", "<br/>") %>
-            </td> 
+            <!-- 엔터키로 처리된 부분을 <br>태그로 변경해야지만 줄바꿈되어 출력된다. -->
+            <td colspan="3" height="100"><%= dto.getContent().replace("\r\n", "<br/>") %></td> 
         </tr>
         <tr>
             <td colspan="4" align="center">
-            
-                <button type="button" onclick="">
+<%
+if(session.getAttribute("UserId") != null &&
+   dto.getId().equals(session.getAttribute("UserId").toString())){
+%>            
+                <button type="button" onclick="location.href='Edit.jsp?num=<%=dto.getNum()%>';">
                     수정하기</button>
                 <button type="button" onclick="deletePost();">삭제하기</button> 
-            
-                <button type="button" onclick="location.href='List.jsp';">
-                    목록 보기
-                </button>
+
+<%
+}
+
+%>            
+<%
+if(session.getAttribute("UserId") != null &&
+!dto.getId().equals(session.getAttribute("UserId").toString())){
+%>
+
+ 				<button type="button" onclick="">추천하기</button>
+<%
+}
+%>
+                <button type="button" onclick="location.href='List.jsp';">목록 보기</button>
             </td>
         </tr>
     </table>
