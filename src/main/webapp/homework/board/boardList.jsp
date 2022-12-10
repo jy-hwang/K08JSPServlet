@@ -1,8 +1,26 @@
-<%@page import="model1.board.BoardDAO"%>
+<%@page import="homework.boardFree.BoardFreeDTO"%>
+<%@page import="homework.boardFree.BoardFreeDAO"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-    BoardDAO dao = new BoardDAO(application);
+    BoardFreeDAO dao = new BoardFreeDAO(application);
+    
+ 	Map<String, Object> param = new HashMap<String,Object>();
+    
+    String searchField = request.getParameter("searchField");
+    String searchWord = request.getParameter("searchWord");
+    
+    if(searchWord != null){
+    	param.put("searchField", searchField);
+    	param.put("searchWord", searchWord);
+    }
+
+    int totalCount = dao.selectCount(param);
+    List<BoardFreeDTO> boardLists = dao.selectList(param);
+    dao.close();
     
     
     
@@ -25,11 +43,11 @@
 <div class="container">
     <div class="row">
     <!-- 상단 네비게이션 바 인클루드 -->
-        <%@ include file ="inc/top.jsp" %>
+        <%@ include file ="../inc/top.jsp" %>
     </div>
     <div class="row">
         <!-- 좌측 네비게이션 바 인클루드 -->
-           <%@ include file ="inc/left.jsp" %>
+           <%@ include file ="../inc/left.jsp" %>
         <div class="col-9 pt-3">
             <h3>게시판 목록 - <small>자유게시판</small></h3>
 
@@ -37,10 +55,10 @@
                 <!-- 검색부분 -->
                 <form>
                     <div class="input-group ms-auto" style="width: 400px;">
-                        <select name="keyField" class="form-control">
-                            <option value="">제목</option>
-                            <option value="">작성자</option>
-                            <option value="">내용</option>
+                        <select name="searchField" class="form-control">
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                            <option value="id">작성자</option>
                         </select>
                         <input type="text" name="keyString" class="form-control" style="width: 150px;"/>
                         <div class="input-group-btn">
@@ -60,7 +78,7 @@
                         <col width="120px" />
                         <col width="120px" />
                         <col width="80px" />
-                        <col width="60px" />
+                        <col width="100px" />
                     </colgroup>
                     <thead>
                         <tr style="background-color: rgb(133, 133, 133); " class="text-center text-white">
@@ -69,22 +87,41 @@
                             <th>작성자</th>
                             <th>작성일</th>
                             <th>조회수</th>
-                            <th>첨부</th>
+                            <th>좋아요수</th>
                         </tr>
                     </thead>
                     <tbody>
-                         <%for(int i=1 ; i<=5 ; i++){ %> 
-                        <!-- 리스트반복 -->
-                        <tr>
-                            <td class="text-center"><%= i %></td>
-                            <td class="text-left"><a href="boardView.html">제목</a></td>
-                            <td class="text-center">작성자</td>
-                            <td class="text-center">작성일</td>
-                            <td class="text-center">조회수</td>
-                            <td class="text-center"><i class="bi bi-pin-angle-fill" style="font-size:20px"></i></td>
-                        </tr>
-                        
-                         <% } %> 
+                    
+	                    <%
+						if (boardLists.isEmpty()) {
+						%>
+						        <tr>
+						            <td colspan="5" align="center">
+						                등록된 게시물이 없습니다^^*
+						            </td>
+						        </tr>
+						<%
+						}
+						else {
+						    int virtualNum = 0; 
+						    for (BoardFreeDTO dto : boardLists)
+						    {
+						        virtualNum = totalCount--;   
+						%>
+						        <tr align="center">
+						            <td><%= virtualNum %></td>  
+						            <td align="left"> 
+						                <a href="boardView.jsp?num=<%= dto.getNum() %>"><%= dto.getTitle() %></a> 
+						            </td>
+						            <td align="center"><%= dto.getId() %></td>           
+						            <td align="center"><%= dto.getPostdate() %></td>    
+						            <td align="center"><%= dto.getVisitcount() %></td>   
+						            <td align="center"><%= dto.getReccount() %></td>
+						        </tr>
+						<%
+						    }
+						}
+						%>
                     </tbody>
                 </table>
             </div>
@@ -132,7 +169,7 @@
     <div class="row border border-dark border-bottom-0 border-right-0 border-left-0"></div>
     <div class="row mb-5 mt-3">
         <!-- 하단 footer 인클루드 -->
-		<%@ include file ="inc/bottom.jsp" %>        
+		<%@ include file ="../inc/bottom.jsp" %>        
     </div>
 </div>
 </body>

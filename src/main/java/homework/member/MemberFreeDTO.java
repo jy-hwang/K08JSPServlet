@@ -1,6 +1,6 @@
-package membership;
+package homework.member;
 
-public class MemberDTO {
+public class MemberFreeDTO {
 
 	private String id;
 	private String pass;
