@@ -21,7 +21,7 @@ public class MemberFreeDAO extends JDBConnect {
 	public MemberFreeDTO getMemberDTO(String uid, String upass) {
 
 		MemberFreeDTO dto = new MemberFreeDTO();
-		String query = "select * from member where id = ? and pass = ?";
+		String query = "select * from member_free where id = ? and pass = ?";
 
 		try {
 			psmt = con.prepareStatement(query);

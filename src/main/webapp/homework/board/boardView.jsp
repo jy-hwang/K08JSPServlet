@@ -51,6 +51,7 @@ dao.close();
             <h3>게시판 내용보기 - <small>자유게시판</small></h3>
 
             <form>
+            <input type="hidden" name="num" value="<%= num %>" />  
             <table class="table table-bordered">
             <colgroup>
                 <col width="20%"/>
@@ -110,16 +111,16 @@ dao.close();
             <div class="row">
                 <div class="col text-right mb-4">
                     <!-- 각종 버튼 부분 -->
-                    <button type="button" class="btn">Basic</button>
-                    <button type="button" class="btn btn-primary" onclick="location.href='boardWrite.html';">글쓰기</button>
-                    <button type="button" class="btn btn-secondary">수정하기</button>
+                    <% if(session.getAttribute("UserId") == null){  %>
+                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
+<%}else if(boardOne.getId().equals(session.getAttribute("UserId").toString())){ %>
+                    <button type="button" class="btn btn-secondary"  onclick="location.href='boardEdit.jsp?num=<%=boardOne.getNum()%>';">수정하기</button>
                     <button type="button" class="btn btn-success">삭제하기</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
+<% }else { %>
+                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
                     <button type="button" class="btn btn-info">답글쓰기</button>
-                    <button type="button" class="btn btn-warning">리스트보기</button>
-                    <button type="button" class="btn btn-danger">전송하기</button>
-                    <button type="button" class="btn btn-dark">Reset</button>
-                    <button type="button" class="btn btn-light">Light</button>
-                    <button type="button" class="btn btn-link">Link</button>
+          <% } %>
                 </div>
             </div>
             </form> 

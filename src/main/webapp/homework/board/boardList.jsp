@@ -13,7 +13,7 @@
     String searchField = request.getParameter("searchField");
     String searchWord = request.getParameter("searchWord");
     
-    if(searchWord != null){
+    if(searchWord != null && searchField != null){
     	param.put("searchField", searchField);
     	param.put("searchWord", searchWord);
     }
@@ -21,9 +21,6 @@
     int totalCount = dao.selectCount(param);
     List<BoardFreeDTO> boardLists = dao.selectList(param);
     dao.close();
-    
-    
-    
     %>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,14 +50,14 @@
 
             <div class="row ">
                 <!-- 검색부분 -->
-                <form>
+                <form method="POST" action="">
                     <div class="input-group ms-auto" style="width: 400px;">
                         <select name="searchField" class="form-control">
-                            <option value="title">제목</option>
-                            <option value="content">내용</option>
-                            <option value="id">작성자</option>
+                            <option value="title" <%= searchField != null && searchField.equals("title") ? "selected" : "" %> >제목</option>
+                            <option value="content" <%= searchField != null && searchField.equals("content") ? "selected" : "" %>>내용</option>
+                            <option value="id" <%= searchField != null && searchField.equals("id") ? "selected" : "" %>>작성자</option>
                         </select>
-                        <input type="text" name="keyString" class="form-control" style="width: 150px;"/>
+                        <input type="text" name="searchWord" class="form-control" style="width: 150px;" value ="<%= searchWord != null ? searchWord : "" %>"/>
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-secondary">
                                 <i class="bi bi-search" style='font-size:20px'></i>
@@ -125,22 +122,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row">
-                <div class="col d-flex justify-content-end">
-                    <!-- 각종 버튼 부분 -->
-                    <button type="button" class="btn">Basic</button>
-                    <button type="button" class="btn btn-primary" onclick="location.href='boardWrite.html';">글쓰기</button>
-                    <button type="button" class="btn btn-secondary">수정하기</button>
-                    <button type="button" class="btn btn-success">삭제하기</button>
-                    <button type="button" class="btn btn-info">답글쓰기</button>
-                    <button type="button" class="btn btn-warning">리스트보기</button>
-                    <button type="button" class="btn btn-danger">전송하기</button>
-                    <button type="button" class="btn btn-dark">Reset</button>
-                    <button type="button" class="btn btn-light">Light</button>
-                    <button type="button" class="btn btn-link">Link</button>
-                </div>
-            </div>
-            <div class="row mt-3">
+				<div class="container my-3 bg-light">
+					<div class="col-md-12 text-center">
+						<!-- 각종 버튼 부분 -->
+						<button type="button" class="btn btn-primary"
+							onclick="location.href='boardWrite.jsp';">글쓰기</button>
+						<button type="button" class="btn btn-warning">리스트보기</button>
+					</div>
+				</div>
+				<div class="row mt-3">
                 <div class="col">
                     <!-- 페이지번호 부분 -->
                     <ul class="pagination justify-content-center">

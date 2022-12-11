@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../login/IsLoggedIn.jsp"%>  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,37 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">    
+<script type="text/javascript">
+function validateForm() {  // 폼 내용 검증
+form = document.getElementById("writeForm");
+console.log(form);
+
+	if (form.title.value == "") {
+        alert("제목을 입력하세요.");
+        form.title.focus();
+        return false;
+    }
+    if (form.content.value == "") {
+        alert("내용을 입력하세요.");
+        form.content.focus();
+        return false;
+    }
+    
+   form.submit();
+}
+
+function resetForm(){
+	form = document.getElementById("writeForm");
+
+	var confirmed = confirm("다시쓰시겠어요?");
+	
+	if(confirmed){
+		form.title.value ="";
+		form.content.value = "";
+		
+	}
+}
+</script>
 </head>
 <body>
 <div class="container">
@@ -24,8 +56,8 @@
         <div class="col-9 pt-3">
             <h3>게시판 작성 - <small>자유게시판</small></h3>
 
-            <form enctype="multipart/form-data">
-                <table class="table table-bordered">
+         <form name="writeFrm" id="writeForm" method="post" action="boardWriteProcess.jsp">
+             <table class="table table-bordered">
                 <colgroup>
                     <col width="20%"/>
                     <col width="*"/>
@@ -36,54 +68,45 @@
                             style="vertical-align:middle;">작성자</th>
                         <td>
                             <input type="text" class="form-control" 
-                                style="width:100px;" />
+                                style="width:150px;" value="<%= session.getAttribute("UserName") %>" readonly />
                         </td>
                     </tr>
-                    <tr>
-                        <th class="text-center" 
-                            style="vertical-align:middle;">패스워드</th>
-                        <td>
-                            <input type="text" class="form-control" 
-                                style="width:200px;" />
-                        </td>
-                    </tr>
+                    
                     <tr>
                         <th class="text-center" 
                             style="vertical-align:middle;">제목</th>
                         <td>
-                            <input type="text" class="form-control" />
+                            <input type="text" name="title" class="form-control" />
                         </td>
                     </tr>
                     <tr>
                         <th class="text-center" 
                             style="vertical-align:middle;">내용</th>
                         <td>
-                            <textarea rows="5" class="form-control"></textarea>
+                            <textarea rows="5" name="content" class="form-control"></textarea>
                         </td>
                     </tr>
-                    <tr>
+<!--                     <tr>
                         <th class="text-center" 
                             style="vertical-align:middle;">첨부파일</th>
                         <td>
                             <input type="file" class="form-control" />
                         </td>
                     </tr>
-                </tbody>
+     -->        
+     <tr>
+     <td colspan=2>
+	      <button type="button" class="btn btn-danger" onclick="return validateForm();">전송하기</button>
+	      <button type="button" class="btn btn-dark" onclick="resetForm();">Reset</button>
+   	      <button type="button" class="btn btn-warning" onclick="location.href='../board/boardList.jsp'">리스트보기</button>
+     </td>
+     </tr>
+        </tbody>
                 </table>
                 
                 <div class="row">
                     <div class="col text-right mb-4">
                         <!-- 각종 버튼 부분 -->
-                        <button type="button" class="btn">Basic</button>
-                        <button type="button" class="btn btn-primary" onclick="location.href='boardWrite.html';">글쓰기</button>
-                        <button type="button" class="btn btn-secondary">수정하기</button>
-                        <button type="button" class="btn btn-success">삭제하기</button>
-                        <button type="button" class="btn btn-info">답글쓰기</button>
-                        <button type="button" class="btn btn-warning">리스트보기</button>
-                        <button type="button" class="btn btn-danger">전송하기</button>
-                        <button type="button" class="btn btn-dark">Reset</button>
-                        <button type="button" class="btn btn-light">Light</button>
-                        <button type="button" class="btn btn-link">Link</button>
                     </div>
                 </div>
             </form>

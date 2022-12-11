@@ -3,7 +3,7 @@
 <div class="col-12">
 	<nav class="navbar navbar-expand-sm bg-warning navbar-secondary">
 		<!-- Brand/logo -->
-		<a class="navbar-brand" href="../homework/board/boardList.jsp"> <img
+		<a class="navbar-brand" href="../board/boardList.jsp"> <img
 			src="https://tjoeun.co.kr/images/logo.gif?v=20190918"
 			style="width: 150px;">
 		</a>
@@ -38,12 +38,12 @@
 			<li class="nav-item"><a class="nav-link" href="#"> <i class='bi bi-person-plus-fill' style='font-size: 20px'></i>회원가입
 			</a></li>
 			
-			<li class="nav-item"><a class="nav-link" href="#"><i class='bi bi-box-arrow-in-right' style='font-size: 20px'></i>로그인</a></li>
+			<li class="nav-item"><a class="nav-link" href="../login/login.jsp"><i class='bi bi-box-arrow-in-right' style='font-size: 20px'></i>로그인</a></li>
 			
 			<%} else { %>
 			<li class="nav-item"><a class="nav-link" href="#"><i class='bi bi-person-lines-fill' style='font-size: 20px'></i>회원정보수정</a>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="#"><i class='bi bi-box-arrow-right' style='font-size: 20px'></i>로그아웃</a></li>
+			<li class="nav-item"><a class="nav-link" href="../login/logout.jsp"><i class='bi bi-box-arrow-right' style='font-size: 20px'></i>로그아웃</a></li>
 			<%} %>
 		</ul>
 	</nav>

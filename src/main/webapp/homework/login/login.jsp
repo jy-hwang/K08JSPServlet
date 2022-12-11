@@ -34,11 +34,12 @@
 		<div class="row">
 			<!-- 좌측 네비게이션 바 인클루드 -->
 			<%@ include file="../inc/left.jsp"%>
+			 <div class="col-9 pt-3">
 			<h3>로그인</h3>
 			<fieldset style="border: 1px solid black">
-				<form action="loginProcess.jsp">
+				<form action="../login/loginProcess.jsp">
 					<div class="mb-3 row">
-						<label for="id" class="col-sm-2 col-form-label">아이디</label>
+						<label for="loginId" class="col-sm-2 col-form-label">아이디</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control-plaintext" name="loginId"
 								placeholder="아이디를입력하세요" />
@@ -58,6 +59,7 @@
 					</div>
 				</form>
 			</fieldset>
+		</div>
 		</div>
 		<div
 			class="row border border-dark border-bottom-0 border-right-0 border-left-0"></div>
