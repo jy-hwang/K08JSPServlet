@@ -29,55 +29,20 @@ dao.close();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">    
-<script type="text/javascript">
-function validateForm() {  // 폼 내용 검증
-form = document.getElementById("editForm");
-console.log(form);
-
-	if (form.title.value == "") {
-        alert("제목을 입력하세요.");
-        form.title.focus();
-        return false;
-    }
-    if (form.content.value == "") {
-        alert("내용을 입력하세요.");
-        form.content.focus();
-        return false;
-    }
-    
-   form.submit();
-}
-
-function resetForm(){
-	form = document.getElementById("editForm");
-
-	var confirmed = confirm("다시쓰시겠어요?");
-	
-	if(confirmed){
-		form.title.value ="";
-		form.content.value = "";
-		
-	}
-}
-</script>
+   <%@ include file ="../inc/Header_inc.jsp" %>    
+   <script src="../../js/board/BoardEdit.js"></script>     
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <%@ include file ="../inc/top.jsp" %>        
+        <%@ include file ="../inc/Top.jsp" %>        
     </div>
     <div class="row">
-        <%@ include file ="../inc/left.jsp" %>        
+        <%@ include file ="../inc/Left.jsp" %>        
         <div class="col-9 pt-3">
-            <h3>게시판 작성 - <small>자유게시판</small></h3>
+            <h3>게시판 수정 - <small>자유게시판</small></h3>
 
-         <form name="editFrm" id="editForm" method="post" action="boardEditProcess.jsp">
+         <form name="editFrm" id="editForm" method="post" action="BoardEditProcess.jsp">
 <input type="hidden" name="num" value="<%= num %>" />  
              <table class="table table-bordered">
                 <colgroup>
@@ -116,27 +81,23 @@ function resetForm(){
                         </td>
                     </tr>
      -->        
-     <tr>
-     <td colspan=2>
-	      <button type="button" class="btn btn-danger" onclick="return validateForm();">전송하기</button>
-	      <button type="button" class="btn btn-dark" onclick="resetForm();">Reset</button>
-   	      <button type="button" class="btn btn-warning" onclick="location.href='../board/boardList.jsp'">리스트보기</button>
-     </td>
-     </tr>
         </tbody>
                 </table>
-                
-                <div class="row">
-                    <div class="col text-right mb-4">
-                        <!-- 각종 버튼 부분 -->
-                    </div>
-                </div>
-            </form>
+					<div class="container my-3">
+						<div class="col-md-12 text-center">
+							<button type="button" class="btn btn-danger"
+								onclick="return validateFrm();">수정하기</button>
+							<button type="button" class="btn btn-dark" onclick="resetForm();">다시쓰기</button>
+							<button type="button" class="btn btn-warning"
+								onclick="location.href='BoardList.jsp'">리스트보기</button>
+						</div>
+					</div>
+				</form>
         </div>
     </div>
     <div class="row border border-dark border-bottom-0 border-right-0 border-left-0"></div>
     <div class="row mb-5 mt-3">
-         <%@ include file ="../inc/bottom.jsp" %>        
+         <%@ include file ="../inc/Bottom.jsp" %>        
     </div>
 </div>
 </body>

@@ -30,27 +30,23 @@ dao.close();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">    
+  	<%@ include file ="../inc/Header_inc.jsp" %>
+  	<script src="../../js/board/BoardView.js"></script>     
 </head>
 <body>
 <div class="container">
     <div class="row">
         <!-- 상단 네비게이션 바 인클루드 -->
-        <%@ include file ="../inc/top.jsp" %>
+        <%@ include file ="../inc/Top.jsp" %>
     </div>
     <div class="row">
        <!-- 좌측 네비게이션 바 인클루드 -->
-        <%@ include file ="../inc/left.jsp" %>
+        <%@ include file ="../inc/Left.jsp" %>
            
         <div class="col-9 pt-3">
             <h3>게시판 내용보기 - <small>자유게시판</small></h3>
 
-            <form>
+            <form name=viewFrm>
             <input type="hidden" name="num" value="<%= num %>" />  
             <table class="table table-bordered">
             <colgroup>
@@ -69,7 +65,9 @@ dao.close();
                     <th class="text-center" 
                         style="vertical-align:middle;">작성일</th>
                     <td>
-                        <%= boardOne.getPostdate() %>
+                        <%= boardOne.getPostdate() %><% if(boardOne.getUpdtdate() != null){
+                        %><small>(최종수정일 : <%= boardOne.getUpdtdate() %>)</small>
+                        <% } %>
                     </td>
                 </tr>
                 <tr>
@@ -108,17 +106,17 @@ dao.close();
             </tbody>
             </table>
             
-            <div class="row">
-                <div class="col text-right mb-4">
+           	<div class="container my-3">
+					<div class="col-md-12 text-center">
                     <!-- 각종 버튼 부분 -->
-                    <% if(session.getAttribute("UserId") == null){  %>
-                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
+<% if(session.getAttribute("UserId") == null){  %>
+                    <button type="button" class="btn btn-warning" onclick="location.href='BoardList.jsp'">리스트보기</button>
 <%}else if(boardOne.getId().equals(session.getAttribute("UserId").toString())){ %>
-                    <button type="button" class="btn btn-secondary"  onclick="location.href='boardEdit.jsp?num=<%=boardOne.getNum()%>';">수정하기</button>
-                    <button type="button" class="btn btn-success">삭제하기</button>
-                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
+                    <button type="button" class="btn btn-secondary"  onclick="location.href='BoardEdit.jsp?num=<%=boardOne.getNum()%>';">수정하기</button>
+                    <button type="button" class="btn btn-success" onclick="deletePost();">삭제하기</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='BoardList.jsp'">리스트보기</button>
 <% }else { %>
-                    <button type="button" class="btn btn-warning" onclick="location.href='boardList.jsp'">리스트보기</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='BoardList.jsp'">리스트보기</button>
                     <button type="button" class="btn btn-info">답글쓰기</button>
           <% } %>
                 </div>
@@ -128,7 +126,7 @@ dao.close();
     </div>
     <div class="row border border-dark border-bottom-0 border-right-0 border-left-0"></div>
     <div class="row mb-5 mt-3">
-       <%@ include file ="../inc/bottom.jsp" %>        
+       <%@ include file ="../inc/Bottom.jsp" %>        
     </div>
 </div>
 </body>

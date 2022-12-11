@@ -112,6 +112,7 @@ public class BoardFreeDAO extends JDBConnect {
 				dto.setTitle(rs.getString(2));
 				dto.setContent(rs.getString("content"));
 				dto.setPostdate(rs.getDate("postdate"));
+				dto.setUpdtdate(rs.getDate("updtdate"));
 				dto.setId(rs.getString("id"));
 				dto.setVisitcount(rs.getString("visitcount"));
 				dto.setReccount(rs.getString("reccount"));
@@ -122,7 +123,7 @@ public class BoardFreeDAO extends JDBConnect {
 		} catch (SQLException e) {
 			System.out.println("쿼리오류");
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 상세보기 중 예외 발생");
 			e.printStackTrace();
 		}
@@ -130,70 +131,66 @@ public class BoardFreeDAO extends JDBConnect {
 		return dto;
 
 	}
-	
+
 	public int updateEdit(BoardFreeDTO dto) {
-		int result = 0 ;
-		String query = "update board_free set title = ?, content =? where num = ? ";
-		
+		int result = 0;
+		String query = "update board_free set title = ?, content =?,updtdate = sysdate where num = ? ";
+
 		try {
 			psmt = con.prepareStatement(query);
-			
+
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
 			psmt.setString(3, dto.getNum());
-			
+
 			result = psmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Query 오류" +  query);
+			System.out.println("Query 오류" + query);
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println("게시물 수정 중 예외 발생");
 			e.printStackTrace();
 		}
-		
+
 		return result;
-		
-		
+
 	}
-	
+
 	public void updateVisitCount(String num) {
-		
-		String query = "update board set visitcount = visitcount + 1 where num = ? ";
-		
+
+		String query = "update board_free set visitcount = visitcount + 1 where num = ? ";
+
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, num);;
+			psmt.setString(1, num);
+			;
 			psmt.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 조회수 증가 중 예외발생");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int deletePost(BoardFreeDTO dto) {
-		int result = 0 ;
-		
+		int result = 0;
+
 		try {
-			String query = "delete from board where num = ? ";
+			String query = "delete from board_free where num = ? ";
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getNum());
 			result = psmt.executeUpdate();
-					
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 삭제 중 예외발생");
 			e.printStackTrace();
 		}
-		
-		
+
 		return result;
 	}
-	
+
 }
