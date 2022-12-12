@@ -1,3 +1,4 @@
+<%@page import="utils.BoardPageBoot"%>
 <%@page import="homework.boardFree.BoardFreeDTO"%>
 <%@page import="homework.boardFree.BoardFreeDAO"%>
 <%@page import="java.util.HashMap"%>
@@ -18,8 +19,37 @@
     	param.put("searchWord", searchWord);
     }
 
+    
+    Map<String, Object> mapPaging = new HashMap<String,Object>();
+
     int totalCount = dao.selectCount(param);
-    List<BoardFreeDTO> boardLists = dao.selectList(param);
+ 	/**페이징 코드 추가부분 s *******************************/
+    
+    int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
+    int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+    int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+    
+    int pageNum = 1;
+    String pageTemp = request.getParameter("pageNum");
+    
+    if(pageTemp != null && !pageTemp.equals("")){
+    	pageNum = Integer.parseInt(pageTemp);
+    }
+    
+    int start = (pageNum -1 ) * pageSize + 1;
+    int end = pageNum * pageSize;
+    System.out.println("페이징 관련 변수 : " + " " + pageSize + " "+blockPage + " "+ totalPage + " " +start +" " + end);
+    param.put("start",start);
+    param.put("end",end);
+    // totalCount, pageSize, blockPage, pageNum, request.getRequestURI()
+    mapPaging.put("totalCount",totalCount);
+    mapPaging.put("pageSize",pageSize);
+    mapPaging.put("blockPage",blockPage);
+    mapPaging.put("pageNum",pageNum);
+    mapPaging.put("reqUrl",request.getRequestURI());
+    /**페이징 코드 추가부분 e *******************************/
+    
+    List<BoardFreeDTO> boardLists = dao.selectListPage(param);
     dao.close();
 %>
 <!DOCTYPE html>
@@ -129,25 +159,10 @@
 				<div class="row mt-3">
                 <div class="col">
                     <!-- 페이지번호 부분 -->
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a href="#" class="page-link"><i class='bi bi-skip-backward-fill'></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link"><i class='bi bi-skip-start-fill'></i></a>
-                        </li>
-                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item">
-                            <a href="#" class="page-link"><i class='bi bi-skip-end-fill'></i></a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link"><i class='bi bi-skip-forward-fill'></i></a>
-                        </li>
-                    </ul>
+        		<% System.out.println("현재경로 : " + request.getRequestURI());  %>
+        		<!-- totalCount, pageSize, blockPage, pageNum, request.getRequestURI() -->
+        		<%= BoardPageBoot.pagingStr(mapPaging) %>
+                
                 </div>
             </div>
         </div>

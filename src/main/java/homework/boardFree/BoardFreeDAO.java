@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.servlet.ServletContext;
 
 import common.JDBConnect;
+import model1.board.BoardDTO;
 
 public class BoardFreeDAO extends JDBConnect {
 	public BoardFreeDAO(ServletContext application) {
@@ -76,6 +77,50 @@ public class BoardFreeDAO extends JDBConnect {
 
 	}
 
+	public List<BoardFreeDTO> selectListPage(Map<String, Object> map) {
+		List<BoardFreeDTO> bbs = new Vector<BoardFreeDTO>();
+
+		String query = "select * from ( select tb.* , rownum rNum from ( select * from board_free ";
+
+		if (map.get("searchWord") != null) {
+			query += "where " + map.get("searchField") + " like '%" + map.get("searchWord") + "%'";
+		}
+
+		query += " order by num desc ) tb ) where rNum between ? and ? ";
+
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("start").toString());
+			psmt.setString(2, map.get("end").toString());
+			System.out.println(query + " " + map.get("start").toString() + " " + map.get("end").toString() );
+			//stmt = con.createStatement();
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				BoardFreeDTO dto = new BoardFreeDTO();
+
+				dto.setNum(rs.getString("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setPostdate(rs.getDate("postdate"));
+				dto.setUpdtdate(rs.getDate("updtdate"));
+				dto.setId(rs.getString("id"));
+				dto.setVisitcount(rs.getString("visitcount"));
+				dto.setReccount(rs.getString("reccount"));
+
+				bbs.add(dto);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("게시물 페이징 처리 중 예외 발생");
+			e.printStackTrace();
+		}
+
+		return bbs;
+
+	}
+	
+	
 	public int insertWrite(BoardFreeDTO dto) {
 		int result = 0;
 
