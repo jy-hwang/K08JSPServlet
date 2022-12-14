@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="common.Person"%>
@@ -26,6 +27,15 @@ lists.add(new Person("신숙주",34));
 <li>이름 : ${list.name }, 나이 : ${list.age }</li>
 </c:forEach>
 
+<h4>Java 코드를 통한 출력</h4>
+<%
+for(Person p : lists){
+	out.println("이름 : " + p.getName() + " , 나이 : " + p.getAge() + "<br>");
+	
+}
+
+%>
+
 <h4>Map 컬렉션 사용하기</h4>
 <%
 
@@ -40,5 +50,21 @@ maps.put("3rd",new Person("신숙주",54));
 Value => 이름 : ${map.value.name}, 나이 : ${map.value.age}
 </li>
 </c:forEach>
+
+
+<h4>Java 코드를 통한 출력</h4>
+<%
+Set<String> keys = maps.keySet();
+
+for( String k : keys){
+Person p = maps.get(k);
+out.println("key =>" + k + " <br>");
+out.println("Value =>" + p.getName() + " ," + p.getAge() + " <br>");
+}
+
+%>
+
+
+
 </body>
 </html>
