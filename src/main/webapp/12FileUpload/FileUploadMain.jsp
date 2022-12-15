@@ -22,6 +22,10 @@
 </script>
 <body>
     <h3>파일 업로드</h3>
+    
+<!--     <form name="fileForm" method="post" enctype="multipart/form-data"
+          action="SimpleProcess.jsp" onsubmit="return validateForm(this);"> </form>
+ -->    
     <span style="color: red;">${errorMessage }</span>
      <form name="fileForm" method="post" enctype="multipart/form-data"
           action="UploadProcess.jsp" onsubmit="return validateForm(this);">
@@ -35,5 +39,10 @@
         첨부파일 : <input type="file" name="attachedFile" /> <br />
         <input type="submit" value="전송하기" />
     </form>
+    
+    <h2>DB에 등록된 파일 목록 보기</h2>
+<a href="FileList.jsp">파일목록보기</a>
+   <h2>User-Agent 확인하기</h2>
+<a href="UserAgent.jsp">User-Agent확인</a>
 </body>
 </html>

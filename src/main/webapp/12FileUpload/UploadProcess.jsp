@@ -1,3 +1,5 @@
+<%@page import="fileupload.MyFileDAO"%>
+<%@page import="fileupload.MyFileDTO"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -5,14 +7,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String saveDirectory = application.getRealPath("/Uploads123");
+String saveDirectory = application.getRealPath("/Uploads");
 
 int maxPostSize = 1024 * 1000;
 String encoding = "UTF-8";
 
 try{
 MultipartRequest mr = new MultipartRequest(request,saveDirectory, maxPostSize, encoding);
-/*
+
 String fileName = mr.getFilesystemName("attachedFile");
 String ext = fileName.substring(fileName.lastIndexOf("."));
 String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
@@ -37,10 +39,23 @@ if(cateArray == null){
 	}
 }
 
+MyFileDTO dto = new MyFileDTO();
+	
+	dto.setName(name);
+	dto.setTitle(title);
+	dto.setCate(cateBuf.toString());
+	dto.setOfile(fileName);
+	dto.setSfile(newFileName);
+	
+	MyFileDAO dao = new MyFileDAO();
+	dao.insertFile(dto);
+	dao.close();
+	
+
 
 
 response.sendRedirect("FileList.jsp");
-*/
+
 }catch(Exception e){
 	e.printStackTrace();
 	request.setAttribute("errorMessage", "파일 업로드 오류");
