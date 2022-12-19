@@ -18,6 +18,8 @@ public class ListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		System.out.println("======ListController doGet method======");
+
 		MVCBoardDAO dao = new MVCBoardDAO();
 
 		Map<String, Object> map = new HashMap<String, Object>();

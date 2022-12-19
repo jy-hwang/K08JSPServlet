@@ -1,104 +1,83 @@
-<%@page import="model1.board.BoardDTO"%>
-<%@page import="model1.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-String num = request.getParameter("num");
-
-BoardDAO dao  = new BoardDAO(application);
-BoardDTO dto = dao.selectView(num);
-
-String userId = "";
-if(session.getAttribute("UserId") != null){
-	userId = session.getAttribute("UserId").toString();
-}
-
-System.out.println("userId : " + userId);
-System.out.println("dto.getId() : " +dto.getId());
-System.out.println(userId == dto.getId());
-System.out.println(userId.equals(dto.getId()));
-if(!userId.equals(dto.getId())){
-	//dao.updateVisitCount(num);
-}
-
-dao.close();
-
-
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원제 게시판</title>
+<title>파일 첨부형 게시판</title>
 <script>
-function deletePost() {
-    var confirmed = confirm("정말로 삭제하겠습니까?"); 
-    if (confirmed) {
-        var form = document.writeFrm;      
-        form.method = "post"; 
-        form.action = "DeleteProcess.jsp"; 
-        form.submit();         
-    }
-}
+
 </script>
 </head>
 <body>
-<jsp:include page="../Common/Link.jsp" />
-<h2>회원제 게시판 - 상세 보기(View)</h2>
-<form name="writeFrm">
-<input type="hidden" name="num" value="<%= num %>" />  
+<h2>파일첨부형 게시판 - 상세 보기(View)</h2>
     <table border="1" width="90%">
+    <colgroup>
+    <col width = "15%"/>
+    <col width = "35%"/>
+    <col width = "15%"/>
+    <col width = "*"/>
+    </colgroup>
         <tr>
             <td>번호</td>
-            <td><%= dto.getNum() %></td>
+            <td>${dto.idx} </td>
             <td>작성자</td>
-            <td><%= dto.getName() %></td>
+            <td>${dto.name }</td>
         </tr>
         <tr>
             <td>작성일</td>
-            <td><%= dto.getPostdate() %><% if(dto.getUpdtdate() != null){
-                        %><small>(최종수정일 : <%= dto.getUpdtdate() %>)</small>
-                        <% } %></td>
+            <td>${dto.postdate }</td>
             <td>조회수</td>
-            <td><%= dto.getVisitcount() %></td>
+            <td>${dto.visitcount }</td>
         </tr>
         <tr>
             <td>제목</td>
-            <td colspan="3"><%= dto.getTitle() %></td>
+            <td colspan="3">${dto.title }</td>
         </tr>
         <tr>
             <td>내용</td>
-            <!-- 엔터키로 처리된 부분을 <br>태그로 변경해야지만 줄바꿈되어 출력된다. -->
-            <td colspan="3" height="100"><%= dto.getContent().replace("\r\n", "<br/>") %></td> 
+            <td colspan="3" height="100">${dto.content }
+            <c:if test="${ isImage eq true }">
+            <p>
+            <img src="../Uploads/${dto.sfile }" alt="첨부된이미지입니다.">
+            </p>
+            
+            </c:if>
+            </td> 
+        </tr>
+        <tr>
+        
+        <td>첨부파일</td>
+        <td>
+        
+        <c:if test="${not empty dto.ofile}">
+        ${dto.ofile} 
+        <a href="../mvcboard/download.do?ofile=${dto.ofile}&sfile=${dto.sfile}&idx=${dto.idx}">[다운로드]</a>
+        
+        </c:if>
+        
+        </td>
+        <td>
+        다운로드수
+        </td>
+        <td>
+        ${dto.downcount} 
+        </td>
         </tr>
         <tr>
             <td colspan="4" align="center">
-<%
-if(session.getAttribute("UserId") != null &&
-   dto.getId().equals(session.getAttribute("UserId").toString())){
-%>            
-                <button type="button" onclick="location.href='Edit.jsp?num=<%=dto.getNum()%>';">
+                <button type="button" onclick="location.href='../mvcboard/pass.do?mode=edit&idx=${param.idx}'">
                     수정하기</button>
-                <button type="button" onclick="deletePost();">삭제하기</button> 
+                <button type="button" onclick="location.href='../mvcboard/pass.do?mode=delete&idx=${param.idx}'">
+                삭제하기</button> 
 
-<%
-}
 
-%>            
-<%
-if(session.getAttribute("UserId") != null &&
-!dto.getId().equals(session.getAttribute("UserId").toString())){
-%>
-
- 				<button type="button" onclick="">추천하기</button>
-<%
-}
-%>
-                <button type="button" onclick="location.href='List.jsp';">목록 보기</button>
+ 				<!-- <button type="button" onclick="">추천하기</button> -->
+                <button type="button" onclick="location.href='../mvcboard/list.do';">목록 보기</button>
             </td>
         </tr>
     </table>
-</form>
 </body>
 </html>

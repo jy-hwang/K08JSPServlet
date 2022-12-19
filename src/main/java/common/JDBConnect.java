@@ -25,7 +25,7 @@ public class JDBConnect {
 			String pwd = "1234";
 
 			con = DriverManager.getConnection(url, id, pwd);
-			
+
 			System.out.println("DB 연결 성공(기본생성자)");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -35,40 +35,37 @@ public class JDBConnect {
 		}
 	}
 
-	
 	public JDBConnect(String driver, String url, String id, String pwd) {
-			try {
-				Class.forName(driver);
-				con = DriverManager.getConnection(url,id,pwd);
-				System.out.println("DB 연결 성공(인수생성자 1)");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, id, pwd);
+			System.out.println("DB 연결 성공(인수생성자 1)");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public JDBConnect(ServletContext application) {
-		
+
 		try {
 			String driver = application.getInitParameter("OracleDriver");
 			Class.forName(driver);
-			
+
 			String url = application.getInitParameter("OracleURL");
 			String id = application.getInitParameter("OracleId");
 			String pwd = application.getInitParameter("OraclePwd");
-			
-			con = DriverManager.getConnection(url,id,pwd);
+
+			con = DriverManager.getConnection(url, id, pwd);
 			System.out.println("DB 연결 성공(인수생성자 2)");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	
+
 	public void close() {
 		try {
 			if (rs != null) {

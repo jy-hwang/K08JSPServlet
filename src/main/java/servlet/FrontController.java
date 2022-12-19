@@ -21,12 +21,12 @@ public class FrontController extends HttpServlet {
 
 		if (commandStr.equals("/regist.one")) {
 			registFunc(req);
-		}else if (commandStr.equals("/login.one")) {
+		} else if (commandStr.equals("/login.one")) {
 			loginFunc(req);
-		}else if (commandStr.equals("/freeboard.one")) {
+		} else if (commandStr.equals("/freeboard.one")) {
 			freeboardFunc(req);
 		}
-		
+
 		req.setAttribute("uri", uri);
 		req.setAttribute("commandStr", commandStr);
 		req.getRequestDispatcher("/13Servlet/FrontController.jsp").forward(req, resp);

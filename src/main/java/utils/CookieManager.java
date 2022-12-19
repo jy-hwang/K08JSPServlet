@@ -15,13 +15,13 @@ public class CookieManager {
 
 	public static String readCookie(HttpServletRequest request, String cName) {
 		String cookieValue = "";
-		
+
 		Cookie[] cookies = request.getCookies();
-		if(cookies != null) {
-			
-			for(Cookie c : cookies) {
+		if (cookies != null) {
+
+			for (Cookie c : cookies) {
 				String cookieName = c.getName();
-				if(cookieName.equals(cName)) {
+				if (cookieName.equals(cName)) {
 					cookieValue = c.getValue();
 				}
 			}

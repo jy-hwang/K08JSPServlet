@@ -76,7 +76,6 @@ public class BoardDAO extends JDBConnect {
 
 	}
 
-
 	public List<BoardDTO> selectListPage(Map<String, Object> map) {
 		List<BoardDTO> bbs = new Vector<BoardDTO>();
 
@@ -92,8 +91,8 @@ public class BoardDAO extends JDBConnect {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
-			System.out.println(query + " " + map.get("start").toString() + " " + map.get("end").toString() );
-			//stmt = con.createStatement();
+			System.out.println(query + " " + map.get("start").toString() + " " + map.get("end").toString());
+			// stmt = con.createStatement();
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
@@ -119,9 +118,7 @@ public class BoardDAO extends JDBConnect {
 		return bbs;
 
 	}
-	
-	
-	
+
 	public int insertWrite(BoardDTO dto) {
 		int result = 0;
 
@@ -168,7 +165,7 @@ public class BoardDAO extends JDBConnect {
 		} catch (SQLException e) {
 			System.out.println("쿼리오류");
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 상세보기 중 예외 발생");
 			e.printStackTrace();
 		}
@@ -176,73 +173,69 @@ public class BoardDAO extends JDBConnect {
 		return dto;
 
 	}
-	
+
 	public int updateEdit(BoardDTO dto) {
-		int result = 0 ;
+		int result = 0;
 		String query = "update board set title = ?, content =? where num = ? ";
-		
+
 		try {
 			psmt = con.prepareStatement(query);
-			
+
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
 			psmt.setString(3, dto.getNum());
-			
+
 			result = psmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Query 오류" +  query);
+			System.out.println("Query 오류" + query);
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("게시물 수정 중 예외 발생");
 			e.printStackTrace();
 		}
-		
+
 		return result;
-		
-		
+
 	}
-	
+
 	public void updateVisitCount(String num) {
-		
+
 		String query = "update board set visitcount = visitcount + 1 where num = ? ";
-		
+
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, num);;
+			psmt.setString(1, num);
+			;
 			psmt.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 조회수 증가 중 예외발생");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int deletePost(BoardDTO dto) {
-		int result = 0 ;
-		
+		int result = 0;
+
 		try {
 			String query = "delete from board where num = ? ";
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getNum());
 			result = psmt.executeUpdate();
-					
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("게시물 삭제 중 예외발생");
 			e.printStackTrace();
 		}
-		
-		
+
 		return result;
 	}
 
-	
-	
-	
 }

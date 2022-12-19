@@ -52,7 +52,7 @@
 						<td>${row.postdate }</td>
 						<td><c:if test="${not empty row.ofile }">
 								<a
-									href="../mvcboard/download.do?ofile=${row.ofile}%sfile=${row.sfile}&idx=${ row.idx }">[down]</a>
+									href="../mvcboard/download.do?ofile=${row.ofile}&sfile=${row.sfile}&idx=${ row.idx }">[down]</a>
 							</c:if></td>
 					</tr>
 				</c:forEach>

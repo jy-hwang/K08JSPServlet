@@ -4,7 +4,7 @@ public class Person {
 
 	private String name;
 	private int age;
-	
+
 	public Person() {
 		super();
 	}
@@ -30,9 +30,5 @@ public class Person {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	
-	
-	
-	
+
 }

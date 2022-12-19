@@ -10,14 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/13Servlet/AnnoMapping.do")
 public class AnnoMapping extends HttpServlet {
-	
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	req.setAttribute("message", "@WebServlet 으로 매핑 ");
-	req.getRequestDispatcher("/13Servlet/AnnoMapping.jsp").forward(req, resp);
-	
+		req.setAttribute("message", "@WebServlet 으로 매핑 ");
+		req.getRequestDispatcher("/13Servlet/AnnoMapping.jsp").forward(req, resp);
+
 	}
 
 }
