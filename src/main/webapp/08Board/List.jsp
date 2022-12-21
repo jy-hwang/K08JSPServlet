@@ -13,11 +13,13 @@
     String searchField = request.getParameter("searchField");
     String searchWord = request.getParameter("searchWord");
     
+ 	String b_id = request.getParameter("b_id");
+    
     if(searchWord != null){
     	param.put("searchField", searchField);
     	param.put("searchWord", searchWord);
     }
-
+    param.put("b_id", b_id);
     int totalCount = dao.selectCount(param);
     List<BoardDTO> boardLists = dao.selectList(param);
     dao.close();
@@ -30,8 +32,23 @@
 </head>
 <body>
  <jsp:include page="../Common/Link.jsp" />  
+<%
+if(b_id.equals("10")){
 
-    <h2>목록 보기(List)</h2>
+%>
+    <h2>b_id = 10 자유게시판 목록 보기(List)</h2>
+
+<%
+}else{
+
+%>
+<h2>b_id = 20 공지사항 목록 보기(List)</h2>
+
+<%
+
+}
+%>
+
     <form method="get">  
     <table border="1" width="90%">
     <tr>
@@ -40,6 +57,7 @@
                 <option value="title">제목</option> 
                 <option value="content">내용</option>
             </select>
+            <input type="hidden" name="b_id" value="10">
             <input type="text" name="searchWord" />
             <input type="submit" value="검색하기" />
         </td>

@@ -41,6 +41,7 @@ function validateForm(form) {  // 폼 내용 검증
         </tr>
         <tr>
             <td colspan="2" align="center">
+            <input type='hidden' name ="b_id" value = '10'>
                 <button type="submit">작성 완료</button>
                 <button type="reset">다시 입력</button>
                 <button type="button" onclick="location.href='List.jsp';">

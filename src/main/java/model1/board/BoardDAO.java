@@ -40,17 +40,20 @@ public class BoardDAO extends JDBConnect {
 	public List<BoardDTO> selectList(Map<String, Object> map) {
 		List<BoardDTO> bbs = new Vector<BoardDTO>();
 
-		String query = "select * from board ";
-
+		String query = "select b1.* from ( select * from board ";
+		
+		
 		if (map.get("searchWord") != null) {
-			query += "where " + map.get("searchField") + " like '%" + map.get("searchWord") + "%'";
+			query += " and " + map.get("searchField") + " like '%" + map.get("searchWord") + "%'";
 		}
 
-		query += " order by num desc";
+		query += " order by num desc) b1 where b1.b_id = ?";
 
 		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, map.get("b_id").toString());
+			System.out.println(query + map.get("b_id").toString());
+			rs = psmt.executeQuery();
 
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
@@ -85,12 +88,13 @@ public class BoardDAO extends JDBConnect {
 			query += "where " + map.get("searchField") + " like '%" + map.get("searchWord") + "%'";
 		}
 
-		query += " order by num desc ) tb ) where rNum between ? and ? ";
+		query += " order by num desc ) tb ) where rNum between ? and ? and b_id = ? ";
 
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, map.get("start").toString());
 			psmt.setString(2, map.get("end").toString());
+			psmt.setString(3, map.get("b_id").toString());
 			System.out.println(query + " " + map.get("start").toString() + " " + map.get("end").toString());
 			// stmt = con.createStatement();
 			rs = psmt.executeQuery();

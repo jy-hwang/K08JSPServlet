@@ -9,16 +9,20 @@
     <%
     BoardDAO dao = new BoardDAO(application);
     
+    
+    
     Map<String, Object> param = new HashMap<String,Object>();
     
     String searchField = request.getParameter("searchField");
     String searchWord = request.getParameter("searchWord");
+    String b_id = request.getParameter("b_id");
     
     if(searchWord != null){
     	param.put("searchField", searchField);
     	param.put("searchWord", searchWord);
     }
-
+    param.put("b_id", b_id);
+    
     int totalCount = dao.selectCount(param);
     
     /**페이징 코드 추가부분 s *******************************/
@@ -62,10 +66,12 @@
     <table border="1" width="90%">
     <tr>
         <td align="center">
+        
             <select name="searchField"> 
                 <option value="title">제목</option> 
                 <option value="content">내용</option>
             </select>
+            <input type="hidden" name="b_id" value="20">
             <input type="text" name="searchWord" />
             <input type="submit" value="검색하기" />
         </td>

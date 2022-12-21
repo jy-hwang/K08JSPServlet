@@ -15,6 +15,9 @@
 <!--            <a href="../05JDBC/ExeQuery_Board_Lists.jsp">게시판(페이징X)</a> -->
             &nbsp;&nbsp;&nbsp; 
             <a href="../09BoardPaging/List.jsp">게시판(페이징O)</a>
+            
+            <a href="../08Board/List.jsp?b_id=10">자유게시판</a>
+            <a href="../08Board/List.jsp?b_id=20">공지사항</a>
         </td>
     </tr>
 </table>
