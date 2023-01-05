@@ -3,36 +3,42 @@ package smtp;
 import java.util.Map;
 import java.util.Properties;
 
-import jakarta.mail.Authenticator;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 
 public class NaverSMTP {
 
 	private final Properties serverInfo;
 	private final Authenticator auth;
 	
-	public NaverSMTP() {
+	public NaverSMTP(ServletContext application) {
+		String smtpId = application.getInitParameter("SMTP_ID");
+		String smtpPw = application.getInitParameter("SMTP_PW");
+		
 		serverInfo = new Properties();
 		serverInfo.put("mail.smtp.host","smtp.naver.com");
 		serverInfo.put("mail.smtp.port","465");
 		serverInfo.put("mail.smtp.starttls.enable","true");
 		serverInfo.put("mail.smtp.auth","true");
+		//serverInfo.put("mail.smtp.ssl.enable","true");
+		//serverInfo.put("mail.smtp.ssl.trust","smtp.naver.com");		
 		serverInfo.put("mail.smtp.debug","true");
 		serverInfo.put("mail.smtp.socketFactory.port","465");
-		serverInfo.put("mail.smtp.socketFacotry.class","javax.net.ssl.SSLSocketFactory");
-		serverInfo.put("mail.smtp.socketFacotry.fallback",false);
+		serverInfo.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+		serverInfo.put("mail.smtp.socketFactory.fallback","false");
 		
 		auth = new Authenticator() {
 			
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("stratojy","abcd");
+				return new PasswordAuthentication(smtpId,smtpPw);
 			}
 		};
 	}
